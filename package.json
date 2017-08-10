@@ -1,0 +1,22 @@
+{
+  "name": "firebasenode",
+  "version": "1.0.0",
+  "description": "assignment 2, firebasenode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIT3140-S2-2017/fit3140-assignment-2-team2.git"
+  },
+  "author": "dpil7, jampic3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FIT3140-S2-2017/fit3140-assignment-2-team2/issues"
+  },
+  "homepage": "https://github.com/FIT3140-S2-2017/fit3140-assignment-2-team2#readme",
+  "dependencies": {
+    "firebase-admin": "^5.1.0"
+  }
+}
