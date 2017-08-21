@@ -1,6 +1,6 @@
 module.exports = function (io, server, ref) {
     results = [] // index represents option, value repesents number of votes
-    var credentials = [1234, 4321]
+    var credentials = [1234, 4321, 9876, 6789, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999]
 
     function checkCredentials(cred) {
         if (credentials.indexOf(parseInt(cred)) > -1) {
@@ -21,14 +21,25 @@ module.exports = function (io, server, ref) {
             // correct credentials
             if (checkCredentials(vote.credentials)) {
                 // decrement CCA
-                ref.once("value", function (snapshot) {
+                ref.child('/motionSensorData').once("value", function (snapshot) {
                     CCA = parseInt(snapshot.val().clientsCurrentlyAvailable) || 0
-                    ref.update({
+                    ref.child('/motionSensorData').update({
                         clientsCurrentlyAvailable: CCA - 1
                     });
-
                     // updating voting totals (form data indexes from one, so it's subtracting one)
-                    results[vote.option - 1]++
+                    
+                    ref.child('/votes').once("value", function (snapshot) {
+                        results = []
+                        for(i=0;i<results.length;i++) {
+                            results[i] = snapshot.child(i)
+                         }
+                    })
+
+                    ref.child('/votes').update({
+                        [vote.option]: results[vote.option-1]
+                    })
+
+                    //results[vote.option - 1]++
                     io.sockets.emit("updateResults", {
                         currentResult: results
                     })
