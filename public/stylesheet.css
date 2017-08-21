@@ -1,0 +1,101 @@
+body {
+    font-family: "Roboto", sans-serif !important;
+}
+
+p {
+    font-size: 16px !important;
+}
+
+.time-wrap {
+    padding: 0px;
+    margin: 0px;
+    font-weight: 400;
+    float: right;
+    font-size: 18px !important;
+    margin-top: 28px;
+    display: none;
+}
+
+.mdl-card__supporting-text {
+    padding: 0px 0px 16px 0px;
+    font-size: 18px;
+}
+
+.mdl-list__item {
+    letter-spacing: normal !important;
+}
+
+.cred .mdl-textfield {
+    width: 150px;
+    margin-right: 10px;
+}
+
+.cred button {
+    margin-bottom: 5px;
+}
+
+.cred .mdl-grid {
+    padding: 0px;
+}
+
+.cred .mdl-cell {
+    margin: 0px;
+}
+
+.options-list ul {
+    list-style: none;
+    margin: 4px 0px 20px 0px;
+}
+
+.result-text li {
+    padding: 16px 0px 16px 0px !important;
+}
+
+.result-text ul {
+    padding: 0px !important;
+}
+
+.result-text {
+    padding: 0px;
+    margin: 0px;
+}
+
+.mdl-card__title-text {
+    color: #3F51B5 !important;
+    font-weight: 400 !important;
+}
+
+.mdl-card__title, ul, .mdl-card__actions {
+    padding-left: 0px !important;
+    margin-left: 0px !important;
+}
+
+.mdl-card {
+    padding: 25px;
+}
+
+#myChart {
+    height: 650px;
+    width: 650px;
+}
+
+.page-content {
+    max-width: 650px;
+}
+
+.current-page {
+    font-weight: bold !important;
+}
+
+main {
+    padding-top: 16px;
+}
+
+form {
+    padding: 0px;
+    margin: 0px
+}
+
+header .material-icons {
+    line-height: 48px;
+}

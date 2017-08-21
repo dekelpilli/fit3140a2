@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/FIT3140-S2-2017/fit3140-assignment-2-team2#readme",
   "dependencies": {
-    "firebase-admin": "^5.1.0"
+    "firebase-admin": "^5.1.0",
+    "johnny-five": "*",
+    "express": "*",
+    "socket.io": "*"
   }
 }

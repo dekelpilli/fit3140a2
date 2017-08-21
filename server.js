@@ -1,27 +1,37 @@
-var admin = require("firebase-admin");
+var admin = require("firebase-admin"),
+    five = require("johnny-five"),
+    arduino = require("./app/arduino.js"),
+    express = require("express"),
+    app = express(),
+    server = require("http").Server(app),
+    io = require("socket.io")(server),
+    routes = require("./app/index.js"),
+    sockets = require("./app/sockets.js")
 
-// Fetch the service account key JSON file contents
-var serviceAccount = require("./serviceAccountKey.json");
+// Fetch the service account key JSON file contents for firebase
+var serviceAccount = require("./serviceAccountKey.json")
 
-// Initialize the app with a service account, granting admin privileges
+// Initialize the firebase app with a service account, granting admin privileges
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://fit3140-assignment2-27209.firebaseio.com"
-});
+})
 
-// As an admin, the app has access to read and write all data, regardless of Security Rules
-var db = admin.database();
-var ref = db.ref("/motionSensorData"); // channel name
-ref.on("value", function (snapshot) {   //this callback will be invoked with each new object
-    console.log(snapshot.val());         // How to retrive the new added object
-}, function (errorObject) {             // if error
-    console.log("The read failed: " + errorObject.code);
-});
+// Connect to firebase database as admin, and create references for each table
+var db = admin.database()
+var ref = db.ref("/motionSensorData") 
 
-// How to push new object
-ref.push({
-    id: 1,
-    type: 'motion',
-    action: 'on',
-    time: 12346789
-});
+
+// serves static pages
+app.use("/public", express.static(__dirname + '/public')); 
+
+// routes connections
+routes(app, ref)
+// handles sockets
+sockets(io, server, ref)
+// handles arduino-related behaviour
+arduino(five, ref)
+
+server.listen(8080, function() {
+    console.log('Listening on port 8080')
+})
