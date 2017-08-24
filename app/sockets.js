@@ -10,6 +10,21 @@ module.exports = function (io, server, ref) {
         }
     }
 
+    //fetches data and records it in the results array
+    ref.child('/votes').on("value", function (snapshot) {
+        results = [0,0,0]
+        //console.log("Updated\n")
+        //console.log(snapshot.val())
+        for(i=0;i<results.length;i++) {
+            //console.log(snapshot.child('/' + (i+1)).val())
+            results[i] = snapshot.child('/' + (i+1)).val()
+        }
+        io.sockets.emit("updateResults", {
+            currentResult: results
+        })
+        
+    })
+
     // specifies behaviour when something connects to the socket
     io.on("connection", function (socket) {
 
@@ -29,18 +44,6 @@ module.exports = function (io, server, ref) {
                         clientsCurrentlyAvailable: CCA - 1
                     });
                     // updating voting totals (form data indexes from one, so it's subtracting one)
-                    
-                    //fetches data and records it in the results array
-                    ref.child('/votes').once("value", function (snapshot) {
-                        results = [0,0,0]
-                        for(i=0;i<results.length;i++) {
-                            results[i] = snapshot.child(i)
-                        }
-                        ref.child('/votes').update({
-                            [vote.option]: results[vote.option-1]+1
-                        })
-                        
-                    })
 
                     //TODO: call this on firebase listener
                     io.sockets.emit("updateResults", {
@@ -48,7 +51,9 @@ module.exports = function (io, server, ref) {
                     })
 
                     //updates the firebase
-         
+                    ref.child('/votes').update({
+                        [vote.option]: results[vote.option-1]+1
+                    })
 
                     //results[vote.option - 1]++
                     
