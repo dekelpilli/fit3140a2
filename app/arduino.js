@@ -7,7 +7,7 @@ module.exports = function (five, ref) {
 
     // listeners for each table that log values when the listener is first initialised, 
     // and when values are changed
-    ref.on("value", function (snapshot) {   
+    ref.child('/motionSensorData').on("value", function (snapshot) {   
         // updates local values so db values can be incremented accurately
         VCA = snapshot.val().votersCurrentlyAvailable
         CCA = snapshot.val().clientsCurrentlyAvailable
@@ -42,13 +42,13 @@ module.exports = function (five, ref) {
                 var motionType = ""
                 if (secondsDiff >= 5) {
                     // increments VCA when voter enters the station
-                    ref.update({
+                    ref.child('/motionSensorData').update({
                         votersCurrentlyAvailable: VCA + 1
                     });
                     motionType = "Long"
                 } else {
                     // decrements VCA when voter leaves the station
-                    ref.update({
+                    ref.child('/motionSensorData').update({
                         votersCurrentlyAvailable: VCA - 1
                     });
                     motionType = "Short"

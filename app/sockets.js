@@ -22,27 +22,36 @@ module.exports = function (io, server, ref) {
             if (checkCredentials(vote.credentials)) {
                 // decrement CCA
                 ref.child('/motionSensorData').once("value", function (snapshot) {
+                    console.log(snapshot.val())
                     CCA = parseInt(snapshot.val().clientsCurrentlyAvailable) || 0
+                    
                     ref.child('/motionSensorData').update({
                         clientsCurrentlyAvailable: CCA - 1
                     });
                     // updating voting totals (form data indexes from one, so it's subtracting one)
                     
+                    //fetches data and records it in the results array
                     ref.child('/votes').once("value", function (snapshot) {
-                        results = []
+                        results = [0,0,0]
                         for(i=0;i<results.length;i++) {
                             results[i] = snapshot.child(i)
-                         }
+                        }
+                        ref.child('/votes').update({
+                            [vote.option]: results[vote.option-1]+1
+                        })
+                        
                     })
 
-                    ref.child('/votes').update({
-                        [vote.option]: results[vote.option-1]
-                    })
-
-                    //results[vote.option - 1]++
+                    //TODO: call this on firebase listener
                     io.sockets.emit("updateResults", {
                         currentResult: results
                     })
+
+                    //updates the firebase
+         
+
+                    //results[vote.option - 1]++
+                    
 
                     // disable form once vote is cast
                     socket.emit("voteDone")

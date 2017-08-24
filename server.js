@@ -19,7 +19,7 @@ admin.initializeApp({
 
 // Connect to firebase database as admin, and create references for each table
 var db = admin.database()
-var ref = db.ref("/motionSensorData") 
+var ref = db.ref() 
 
 
 // serves static pages
